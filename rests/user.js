@@ -2,8 +2,8 @@ const Express = require("express");
 const BodyParser = require("body-parser");
 
 var users = [
-    { name: 'TJ', email: 'tj@vision-media.ca' },
-    { name: 'Tobi', email: 'tobi@vision-media.ca' }
+    { FirstName: 'TJ', LastName:'br',email: 'tj@vision-media.ca' },
+    { FirstName: 'Tobi', LastName:'cd',email: 'tobi@vision-media.ca' }
 ];
 
 exports.getUserHtml = (req, res) => {

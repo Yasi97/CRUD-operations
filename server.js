@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require("mongodb").MongoClient;
-const ObjectId = require("mongodb").ObjectID;
-const { set } = require('mongoose');
+const {ObjectId} = require("mongodb");
+//const { set } = require('mongoose');
 //const mongoose = require('mongoose');
 
 const DB_URL = 'mongodb://localhost:27017';
@@ -29,7 +29,7 @@ app.listen(PORT, ()=>{
     });
 });
 
-app.get("/Student_Details", (request, response) => {
+app.get("/Student_Details/:id", (request, response) => {
     collection.find({}).toArray((error, result) => {
         if (error) {
             return response.status(500).send(error);
@@ -47,16 +47,25 @@ app.post("/Student_Details", (request, response) => {
     });
 });
 
-app.put("/Student_Details/:id", (request, response) => {
-    let id = request.query.id;
-    collection.findOneAndUpdate({ _id: id },
-        { $set: request.body },
-        { new: true, upsert: true, returnOriginal: false });
-    response.status(200).send(true)
-});
 
-// app.delete("/Student_Details/Delete/:id",(request, response) =>{
-//     let id = request.query.id;
-//     collection.findByIdAndDelete({_id: id}))
-// })
+
+app.put("/Student_Details/:id", (request, response) => {
+    
+    const update = collection.findOneAndUpdate(
+        { _id: ObjectId(request.params.id) },
+        { $set: request.body });
+        
+    response.send(update)
+})
+
+
+
+app.delete("/Student_Details/:id",(request, response) =>{
+    const dele = collection.deleteOne(
+        { _id: ObjectId(request.params.id) })
+
+         response.send(dele);
+})
+
+
 
